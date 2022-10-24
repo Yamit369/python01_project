@@ -1,4 +1,9 @@
+from mailbox import linesep
+
+
 MAX_LINES = 3 #CONSTANTVALUE AND GLOBAL #
+MAX_BET = 100
+MIN_BET = 1
 
 def deposit():
     while True:
@@ -23,16 +28,35 @@ def get_num_of_lines():
             if  1 <= lines <=  MAX_LINES:  #OTHER WAY ON WRITTING VALUES #
                 break 
             else:
-                print("Amount must be greater than 0.")
+                print("Please enter the valid numberof lines  ")
         else:
             print("Pleaseenter a number ")
 
-    return amount
+     return lines 
+
+
+def get_bet():
+    while True:
+        amount = input(" What would you like to  bet $")
+        if amount.isdigit():
+            amount = int(amount)
+            if  MIN_BET <= amount <= MAX_BET : 
+                break 
+            else:
+                print(f"Amount must be between ${MIN_BET} - ${MAX_BET}.")
+        else:
+            print("Pleaseenter a number ")
+
+    return amount()
+
 
 
 
 def main():
 
     balance = deposit()
+    lines = get_num_of_lines()
+    bet =  get_bet()
+    print(balance, lines, bet)
 
 main()
