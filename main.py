@@ -1,5 +1,7 @@
 from mailbox import linesep
-import random 
+import random
+
+import symbol 
 
 MAX_LINES = 3 #CONSTANTVALUE AND GLOBAL #
 MAX_BET = 100
@@ -17,8 +19,30 @@ symbol_count = {
     "D":   8
 }
 
+symbol_value = {
+    "A":  5,
+    "B":  4,
+    "C":  3,
+    "D":  2
+}
 
-def get_slotmachine_spin(rows, cols, symbols):
+
+def check_winnings(columns, lines, bet, values):
+    winnings  =  0
+    for line in range(lines):
+        symbol = columns[0][line]
+        for column in columns: 
+            symbol_to_check  =  column[line]
+            if symbol != symbol_to_check:
+                break
+        else:
+            winnings += values[symbol] * bet
+
+    return  winnings
+
+
+
+def get_slotmachine_spin(rows, cols, symbol):
     all_symbols =  []
     for symbol, symbol_count in symbol.items(): #WHEN USING SYMBOL.ITEMS WE ARE SAYING TOGET THE KEY  AND THE VALUE OF THAT KEY#
         for _ in range(symbol_count): # IN PYTHON THE _ IS A ANONYMUS VARIABLE THATIS USE WHENWE DONOT CARE THE ITERATIONS 
@@ -36,6 +60,17 @@ def get_slotmachine_spin(rows, cols, symbols):
         columns.append(column)
 
     return columns
+
+
+def print_slot_machine(columns):
+    for row in range(len(columns[0])):
+        for i,  column in enumerate(columns):
+            if i  != len(columns) -1:
+                print(column[row], end=" | ") #separation of the item
+            else:
+                print(column[row], end="") 
+
+        print()
 
 
 def deposit():
@@ -100,6 +135,11 @@ def main():
 
     
     print(f"you are betting ${bet} on {lines} lines. Total bet is equal to:${total_bet} ")
+
+
+
+    slots =  get_slotmachine_spin(ROWS, COLS, symbol_count)
+    print_slot_machine(slots)
     
 
 main()
