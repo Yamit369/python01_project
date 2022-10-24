@@ -1,7 +1,7 @@
 from mailbox import linesep
 import random
 
-import symbol 
+
 
 MAX_LINES = 3 #CONSTANTVALUE AND GLOBAL #
 MAX_BET = 100
@@ -29,6 +29,7 @@ symbol_value = {
 
 def check_winnings(columns, lines, bet, values):
     winnings  =  0
+    winning_lines = []
     for line in range(lines):
         symbol = columns[0][line]
         for column in columns: 
@@ -37,8 +38,9 @@ def check_winnings(columns, lines, bet, values):
                 break
         else:
             winnings += values[symbol] * bet
+            winning_lines.append(lines  + 1)
 
-    return  winnings
+    return  winnings, winning_lines
 
 
 
@@ -118,11 +120,7 @@ def get_bet():
     return amount
 
 
-
-
-def main():
-
-    balance = deposit()
+def  sping(balance):
     lines = get_num_of_lines()
     while True:
         bet =  get_bet()
@@ -140,6 +138,26 @@ def main():
 
     slots =  get_slotmachine_spin(ROWS, COLS, symbol_count)
     print_slot_machine(slots)
+    winnings, winnings_lines = check_winnings(slots, lines, bet, symbol_value)
+    print(f"You won ${winnings}")
+    print(f"You won on lines: ",  *winnings_lines)
+
+    return  winnings - total_bet
     
 
+
+
+def main():
+
+    balance = deposit()
+    while True:
+        print(f"Current balanceis ${balance}")
+        answer = input("Press enter to Play (q to quit).")
+        if answer == "q":
+            break
+        balance += sping(balance)
+
+
+    print(f"You left with ${balance}")
+    
 main()
